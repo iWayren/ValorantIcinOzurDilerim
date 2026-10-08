@@ -32,21 +32,21 @@
       z-index: 2;
     }
 
-    /* Çiçek Buketi Animasyon Alanı */
+    /* Çiçek Buketi Kartı */
     .bouquet-card {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 24px;
-      padding: 30px 20px;
+      padding: 35px 20px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
       transition: all 0.4s ease;
     }
 
     .bouquet-icon {
       font-size: 100px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
       cursor: pointer;
       display: inline-block;
       filter: drop-shadow(0 10px 20px rgba(230, 57, 70, 0.3));
@@ -279,7 +279,7 @@
 
     <!-- Soru Aşaması -->
     <div class="question-section" id="question-stage">
-      <div class="question-title">Beni affettim mi güzelim? ❤️</div>
+      <div class="question-title">Beni affettin mi güzelim? ❤️</div>
       <div class="btn-group" id="btn-group">
         <button class="btn btn-yes" id="yes-btn">Evet</button>
         <button class="btn btn-no" id="no-btn">Hayır</button>
@@ -332,7 +332,6 @@
     const envelopeStage = document.getElementById('envelope-stage');
     const yesBtn = document.getElementById('yes-btn');
     const noBtn = document.getElementById('no-btn');
-    const btnGroup = document.getElementById('btn-group');
     const envelopeBtn = document.getElementById('envelope-btn');
     const letterModal = document.getElementById('letter-modal');
     const bgMusic = document.getElementById('bg-music');
@@ -341,7 +340,7 @@
     function playMusic() {
       if (!musicStarted) {
         musicStarted = true;
-        bgMusic.currentTime = 12; // "You're like the oxygen I need to survive" kısmı
+        bgMusic.currentTime = 12; // "You're like the oxygen I need to survive" dizesi
         bgMusic.play().catch(e => console.log("Müzik başlatılamadı:", e));
       }
     }
