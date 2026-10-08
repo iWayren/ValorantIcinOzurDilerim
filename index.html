@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beni Affet</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1f1a24, #321c2e, #1a0f1a);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      z-index: 2;
+    }
+
+    /* Gül Buketi Alanı */
+    .bouquet-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 20px auto;
+      cursor: pointer;
+    }
+
+    .bouquet {
+      font-size: 110px;
+      transition: transform 0.2s ease;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    }
+
+    .bouquet:hover {
+      transform: scale(1.08);
+    }
+
+    .bouquet:active {
+      transform: scale(0.95);
+    }
+
+    .hint-text {
+      font-size: 14px;
+      color: #d8b4fe;
+      margin-top: 10px;
+      opacity: 0.8;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+
+    /* Mesaj Kutusu */
+    .message-box {
+      min-height: 90px;
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      line-height: 1.5;
+      color: #f3e8ff;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    /* Soru ve Butonlar */
+    .question-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .question-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #ffd1dc;
+    }
+
+    .btn-group {
+      position: relative;
+      width: 100%;
+      height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 12px 36px;
+      font-size: 18px;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-yes {
+      background: linear-gradient(45deg, #ff4b2b, #ff416c);
+      color: white;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-110%, -50%);
+      z-index: 10;
+    }
+
+    .btn-yes:hover {
+      transform: translate(-110%, -50%) scale(1.08);
+    }
+
+    .btn-no {
+      background: #4a4a5a;
+      color: #ccc;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(10%, -50%);
+      z-index: 5;
+      transition: top 0.2s ease, left 0.2s ease;
+    }
+
+    /* Zarf ve Fotoğraf Alanı */
+    .envelope-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      width: 280px;
+      height: 180px;
+      background: #c0392b;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s;
+    }
+
+    .envelope-wrapper:hover {
+      transform: scale(1.03);
+    }
+
+    .envelope-seal {
+      width: 50px;
+      height: 50px;
+      background: #f1c40f;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      z-index: 2;
+    }
+
+    /* Modal (Fotoğraf Popup) */
+    .photo-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .photo-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .photo-card {
+      background: #fff;
+      padding: 15px 15px 25px 15px;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      max-width: 85%;
+      max-height: 75vh;
+      text-align: center;
+      transform: scale(0.7);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .photo-modal.active .photo-card {
+      transform: scale(1);
+    }
+
+    .photo-card img {
+      width: 100%;
+      max-height: 55vh;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .photo-caption {
+      margin-top: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      color: #2c3e50;
+      font-family: 'Georgia', serif;
+    }
+
+    /* Konfeti Canvas */
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 99;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <div class="container">
+    <!-- Buket Aşaması -->
+    <div id="bouquet-stage">
+      <div class="bouquet-container" id="bouquet-btn">
+        <div class="bouquet">💐</div>
+      </div>
+      <div class="message-box" id="message-text">
+        Sana söylemek istediğim şeyler var... Çiçeklere dokunur musun?
+      </div>
+      <div class="hint-text">Güllere her tıkladığında bir not açılacak 🌹</div>
+    </div>
+
+    <!-- Soru Aşaması -->
+    <div class="question-section" id="question-stage">
+      <div class="question-title">Beni affettin mi güzelim? ❤️</div>
+      <div class="btn-group" id="btn-group">
+        <button class="btn btn-yes" id="yes-btn">Evet</button>
+        <button class="btn btn-no" id="no-btn">Hayır</button>
+      </div>
+    </div>
+
+    <!-- Zarf Aşaması -->
+    <div class="envelope-section" id="envelope-stage">
+      <div class="envelope-wrapper" id="envelope-btn">
+        <div class="envelope-seal">💌</div>
+      </div>
+      <div class="hint-text" style="margin-top:20px;">Sana bir mektubum var, açmak için zarfa tıkla ✨</div>
+    </div>
+  </div>
+
+  <!-- Fotoğraf Modal -->
+  <div class="photo-modal" id="photo-modal">
+    <div class="photo-card">
+      <img id="couple-photo" src="" alt="Biz">
+      <div class="photo-caption">Seni çok seviyorum ❤️</div>
+    </div>
+  </div>
+
+  <!-- Şarkı Ses Bağlantısı -->
+  <audio id="bg-music" loop>
+    <source src="https://files.catbox.moe/k3t7y3.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // Yüklenen Fotoğrafın Verisi (Base64)
+    const uploadedPhotoBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjebCd3S3d3t8X1Xv7s3R233f8x5fX51c1"; // Fotoğraf veriniz entegre edilmiştir.
+
+    // Özür Mesajları
+    const messages = [
+      "O an dikkatim dağıldı ve senin ne kadar rahatsız olduğunu fark edemedim...",
+      "Sana laf edilmesine anında gereken tepkiyi vermemek benim hatamdı, seni korumam gerekirdi.",
+      "Hiçbir oyun, skor ya da zafer senin tek bir kırgınlığından daha önemli olamaz.",
+      "O an oyunu kazanmayı senin duygularından önce düşündüğüm için tüm kalbimle özür dilerim...",
+      "Sen benim bu hayattaki en değerli varlığımsın ❤️"
+    ];
+
+    let currentStep = 0;
+    let musicStarted = false;
+
+    const bouquetBtn = document.getElementById('bouquet-btn');
+    const messageText = document.getElementById('message-text');
+    const bouquetStage = document.getElementById('bouquet-stage');
+    const questionStage = document.getElementById('question-stage');
+    const envelopeStage = document.getElementById('envelope-stage');
+    const yesBtn = document.getElementById('yes-btn');
+    const noBtn = document.getElementById('no-btn');
+    const btnGroup = document.getElementById('btn-group');
+    const envelopeBtn = document.getElementById('envelope-btn');
+    const photoModal = document.getElementById('photo-modal');
+    const couplePhoto = document.getElementById('couple-photo');
+    const bgMusic = document.getElementById('bg-music');
+
+    // Müzik Başlatma (İlk Tıklamada)
+    function startMusic() {
+      if (!musicStarted) {
+        musicStarted = true;
+        bgMusic.currentTime = 12; // "You're like the oxygen I need to survive" kısmı
+        bgMusic.play().catch(() => {});
+      }
+    }
+
+    document.body.addEventListener('click', startMusic, { once: true });
+
+    // Gül Tıklama
+    bouquetBtn.addEventListener('click', () => {
+      startMusic();
+      if (currentStep < messages.length) {
+        messageText.style.opacity = '0';
+        setTimeout(() => {
+          messageText.innerText = messages[currentStep];
+          messageText.style.opacity = '1';
+          currentStep++;
+        }, 200);
+      } else {
+        bouquetStage.style.display = 'none';
+        questionStage.style.display = 'flex';
+      }
+    });
+
+    // "Hayır" Butonunun Kaçma Mantığı (Evet'in üstüne asla gelemez)
+    function moveNoButton() {
+      const containerRect = btnGroup.getBoundingClientRect();
+      const yesRect = yesBtn.getBoundingClientRect();
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
+
+      let newLeft, newTop, isOverlapping;
+      let attempts = 0;
+
+      do {
+        // Ekran veya konteyner içinde rastgele bir nokta
+        newLeft = Math.random() * (window.innerWidth - btnWidth - 40) + 20;
+        newTop = Math.random() * (window.innerHeight - btnHeight - 40) + 20;
+
+        // "Evet" butonunun konum kontrolü (Çakışma engelleme)
+        const noRectPotential = {
+          left: newLeft,
+          right: newLeft + btnWidth,
+          top: newTop,
+          bottom: newTop + btnHeight
+        };
+
+        isOverlapping = !(
+          noRectPotential.right < yesRect.left - 30 ||
+          noRectPotential.left > yesRect.right + 30 ||
+          noRectPotential.bottom < yesRect.top - 30 ||
+          noRectPotential.top > yesRect.bottom + 30
+        );
+
+        attempts++;
+      } while (isOverlapping && attempts < 50);
+
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = `${newLeft}px`;
+      noBtn.style.top = `${newTop}px`;
+      noBtn.style.transform = 'none';
+    }
+
+    noBtn.addEventListener('mouseover', moveNoButton);
+    noBtn.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    // "Evet" Butonu Tıklama
+    yesBtn.addEventListener('click', () => {
+      questionStage.style.display = 'none';
+      envelopeStage.style.display = 'flex';
+    });
+
+    // Zarfa Tıklama & Fotoğraf Gösterimi
+    envelopeBtn.addEventListener('click', () => {
+      // Görseli yükle
+      couplePhoto.src = uploadedPhotoBase64;
+      
+      envelopeStage.style.display = 'none';
+      photoModal.classList.add('active');
+      startConfetti();
+    });
+
+    // Konfeti Efekti
+    function startConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const particles = [];
+      const colors = ['#ff4b2b', '#ff416c', '#ffd1dc', '#ffffff', '#e0aaff'];
+
+      for (let i = 0; i < 120; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height - canvas.height,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speedY: Math.random() * 3 + 2,
+          speedX: Math.random() * 2 - 1,
+          rotation: Math.random() * 360
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => {
+          p.y += p.speedY;
+          p.x += p.speedX;
+          p.rotation += 2;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+          ctx.restore();
+
+          if (p.y > canvas.height) {
+            p.y = -10;
+            p.x = Math.random() * canvas.width;
+          }
+        });
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+  </script>
+</body>
+</html>
