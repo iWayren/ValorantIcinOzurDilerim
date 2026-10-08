@@ -13,12 +13,12 @@
     }
 
     body {
-      background: linear-gradient(135deg, #1f1a24, #321c2e, #1a0f1a);
+      background: linear-gradient(135deg, #0d0814, #26122b, #150a18);
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
       overflow: hidden;
       color: #fff;
     }
@@ -27,78 +27,78 @@
       text-align: center;
       position: relative;
       width: 100%;
-      max-width: 500px;
+      max-width: 480px;
       padding: 20px;
       z-index: 2;
     }
 
-    /* Gül Buketi Alanı */
-    .bouquet-container {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      margin: 0 auto 20px auto;
+    /* Çiçek Buketi Animasyon Alanı */
+    .bouquet-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 30px 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      transition: all 0.4s ease;
+    }
+
+    .bouquet-icon {
+      font-size: 100px;
+      margin-bottom: 15px;
       cursor: pointer;
+      display: inline-block;
+      filter: drop-shadow(0 10px 20px rgba(230, 57, 70, 0.3));
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .bouquet {
-      font-size: 110px;
-      transition: transform 0.2s ease;
-      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    .bouquet-icon:hover {
+      transform: scale(1.1) rotate(3deg);
     }
 
-    .bouquet:hover {
-      transform: scale(1.08);
+    .bouquet-icon:active {
+      transform: scale(0.92);
     }
 
-    .bouquet:active {
-      transform: scale(0.95);
-    }
-
-    .hint-text {
-      font-size: 14px;
-      color: #d8b4fe;
-      margin-top: 10px;
-      opacity: 0.8;
-      animation: pulse 1.5s infinite alternate;
-    }
-
-    @keyframes pulse {
-      from { opacity: 0.4; }
-      to { opacity: 1; }
-    }
-
-    /* Mesaj Kutusu */
-    .message-box {
-      min-height: 90px;
-      background: rgba(255, 255, 255, 0.07);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 25px;
+    .message-text {
+      min-height: 80px;
+      font-size: 18px;
+      line-height: 1.6;
+      color: #f3e8ff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
-      line-height: 1.5;
-      color: #f3e8ff;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease;
     }
 
-    /* Soru ve Butonlar */
+    .hint {
+      font-size: 13px;
+      color: #d8b4fe;
+      margin-top: 15px;
+      opacity: 0.8;
+      animation: pulse 1.8s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+
+    /* Soru Aşaması */
     .question-section {
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 25px;
+      animation: fadeIn 0.6s ease forwards;
     }
 
     .question-title {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 600;
-      color: #ffd1dc;
+      color: #ffb7c5;
+      text-shadow: 0 2px 10px rgba(255, 183, 197, 0.3);
     }
 
     .btn-group {
@@ -111,82 +111,82 @@
     }
 
     .btn {
-      padding: 12px 36px;
+      padding: 14px 40px;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 700;
       border: none;
-      border-radius: 30px;
+      border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
       transition: background 0.3s, transform 0.2s;
     }
 
     .btn-yes {
-      background: linear-gradient(45deg, #ff4b2b, #ff416c);
+      background: linear-gradient(45deg, #e63946, #ff4d6d);
       color: white;
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(-110%, -50%);
+      transform: translate(-115%, -50%);
       z-index: 10;
     }
 
     .btn-yes:hover {
-      transform: translate(-110%, -50%) scale(1.08);
+      transform: translate(-115%, -50%) scale(1.08);
     }
 
     .btn-no {
-      background: #4a4a5a;
-      color: #ccc;
+      background: rgba(255, 255, 255, 0.15);
+      color: #e0e0e0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       position: absolute;
       left: 50%;
       top: 50%;
-      transform: translate(10%, -50%);
+      transform: translate(15%, -50%);
       z-index: 5;
-      transition: top 0.2s ease, left 0.2s ease;
+      transition: left 0.25s ease, top 0.25s ease;
     }
 
-    /* Zarf ve Fotoğraf Alanı */
+    /* Zarf Aşaması */
     .envelope-section {
       display: none;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      animation: fadeIn 0.6s ease forwards;
     }
 
-    .envelope-wrapper {
-      position: relative;
-      width: 280px;
-      height: 180px;
-      background: #c0392b;
-      border-radius: 10px;
+    .envelope {
+      width: 260px;
+      height: 170px;
+      background: linear-gradient(135deg, #c0392b, #962d22);
+      border-radius: 12px;
       cursor: pointer;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
       display: flex;
       justify-content: center;
       align-items: center;
+      position: relative;
       transition: transform 0.3s;
     }
 
-    .envelope-wrapper:hover {
-      transform: scale(1.03);
+    .envelope:hover {
+      transform: scale(1.05);
     }
 
     .envelope-seal {
-      width: 50px;
-      height: 50px;
+      width: 55px;
+      height: 55px;
       background: #f1c40f;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      z-index: 2;
+      font-size: 26px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
-    /* Modal (Fotoğraf Popup) */
-    .photo-modal {
+    /* Mektup Modal */
+    .letter-modal {
       display: none;
       position: fixed;
       top: 0;
@@ -194,51 +194,59 @@
       width: 100vw;
       height: 100vh;
       background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
       z-index: 100;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
+      padding: 20px;
       opacity: 0;
       transition: opacity 0.5s ease;
     }
 
-    .photo-modal.active {
+    .letter-modal.active {
       display: flex;
       opacity: 1;
     }
 
-    .photo-card {
-      background: #fff;
-      padding: 15px 15px 25px 15px;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-      max-width: 85%;
-      max-height: 75vh;
+    .letter-card {
+      background: #fff8f0;
+      color: #2b2d42;
+      padding: 35px 25px;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      max-width: 400px;
+      width: 100%;
       text-align: center;
-      transform: scale(0.7);
+      transform: translateY(30px) scale(0.9);
       transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .photo-modal.active .photo-card {
-      transform: scale(1);
+    .letter-modal.active .letter-card {
+      transform: translateY(0) scale(1);
     }
 
-    .photo-card img {
-      width: 100%;
-      max-height: 55vh;
-      object-fit: cover;
-      border-radius: 8px;
+    .letter-card h2 {
+      font-family: 'Georgia', serif;
+      font-size: 24px;
+      color: #d62828;
+      margin-bottom: 15px;
     }
 
-    .photo-caption {
-      margin-top: 15px;
-      font-size: 22px;
-      font-weight: bold;
-      color: #2c3e50;
+    .letter-card p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 20px;
       font-family: 'Georgia', serif;
     }
 
-    /* Konfeti Canvas */
+    .letter-card .love-text {
+      font-size: 22px;
+      font-weight: bold;
+      color: #d62828;
+      margin-top: 15px;
+    }
+
     #confetti-canvas {
       position: fixed;
       top: 0;
@@ -248,6 +256,11 @@
       pointer-events: none;
       z-index: 99;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -255,20 +268,18 @@
   <canvas id="confetti-canvas"></canvas>
 
   <div class="container">
-    <!-- Buket Aşaması -->
-    <div id="bouquet-stage">
-      <div class="bouquet-container" id="bouquet-btn">
-        <div class="bouquet">💐</div>
+    <!-- Çiçek Aşaması -->
+    <div id="bouquet-stage" class="bouquet-card">
+      <div class="bouquet-icon" id="bouquet-btn">💐</div>
+      <div class="message-text" id="message-text">
+        Sana söylemek istediğim birkaç şey var... Çiçeklere dokunur musun?
       </div>
-      <div class="message-box" id="message-text">
-        Sana söylemek istediğim şeyler var... Çiçeklere dokunur musun?
-      </div>
-      <div class="hint-text">Güllere her tıkladığında bir not açılacak 🌹</div>
+      <div class="hint">Güllere tıkladıkça notlar açılacak 🌹</div>
     </div>
 
     <!-- Soru Aşaması -->
     <div class="question-section" id="question-stage">
-      <div class="question-title">Beni affettin mi güzelim? ❤️</div>
+      <div class="question-title">Beni affettim mi güzelim? ❤️</div>
       <div class="btn-group" id="btn-group">
         <button class="btn btn-yes" id="yes-btn">Evet</button>
         <button class="btn btn-no" id="no-btn">Hayır</button>
@@ -277,36 +288,37 @@
 
     <!-- Zarf Aşaması -->
     <div class="envelope-section" id="envelope-stage">
-      <div class="envelope-wrapper" id="envelope-btn">
+      <div class="envelope" id="envelope-btn">
         <div class="envelope-seal">💌</div>
       </div>
-      <div class="hint-text" style="margin-top:20px;">Sana bir mektubum var, açmak için zarfa tıkla ✨</div>
+      <div class="hint" style="margin-top: 20px; font-size: 15px;">Sana bir mektubum var, açmak için dokun ✨</div>
     </div>
   </div>
 
-  <!-- Fotoğraf Modal -->
-  <div class="photo-modal" id="photo-modal">
-    <div class="photo-card">
-      <img id="couple-photo" src="" alt="Biz">
-      <div class="photo-caption">Seni çok seviyorum ❤️</div>
+  <!-- Mektup Modal -->
+  <div class="letter-modal" id="letter-modal">
+    <div class="letter-card">
+      <h2>Güzelim... ❤️</h2>
+      <p>
+        O an dikkatim dağıldı ve senin ne kadar kırıldığını fark edemedim.
+        Sana hissettirdiğim bu değersizlik duygusu için çok özür dilerim.
+        Benim için en önemli şey daima senin mutluluğun.
+      </p>
+      <div class="love-text">Seni çok seviyorum ❤️</div>
     </div>
   </div>
 
-  <!-- Şarkı Ses Bağlantısı -->
-  <audio id="bg-music" loop>
+  <!-- Şarkı Ses Bağlantısı (Love Nwantiti) -->
+  <audio id="bg-music" loop preload="auto">
     <source src="https://files.catbox.moe/k3t7y3.mp3" type="audio/mpeg">
   </audio>
 
   <script>
-    // Yüklenen Fotoğrafın Verisi (Base64)
-    const uploadedPhotoBase64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjebCd3S3d3t8X1Xv7s3R233f8x5fX51c1"; // Fotoğraf veriniz entegre edilmiştir.
-
-    // Özür Mesajları
     const messages = [
       "O an dikkatim dağıldı ve senin ne kadar rahatsız olduğunu fark edemedim...",
-      "Sana laf edilmesine anında gereken tepkiyi vermemek benim hatamdı, seni korumam gerekirdi.",
-      "Hiçbir oyun, skor ya da zafer senin tek bir kırgınlığından daha önemli olamaz.",
-      "O an oyunu kazanmayı senin duygularından önce düşündüğüm için tüm kalbimle özür dilerim...",
+      "Sana laf edilmesine anında gereken tepkiyi vermemek benim büyük hatamdı.",
+      "Hiçbir oyun ya da durum senin tek bir kırgınlığından daha önemli olamaz.",
+      "Sana verdiğim değeri o an hissettiremediğim için tüm kalbimle özür dilerim...",
       "Sen benim bu hayattaki en değerli varlığımsın ❤️"
     ];
 
@@ -322,24 +334,24 @@
     const noBtn = document.getElementById('no-btn');
     const btnGroup = document.getElementById('btn-group');
     const envelopeBtn = document.getElementById('envelope-btn');
-    const photoModal = document.getElementById('photo-modal');
-    const couplePhoto = document.getElementById('couple-photo');
+    const letterModal = document.getElementById('letter-modal');
     const bgMusic = document.getElementById('bg-music');
 
-    // Müzik Başlatma (İlk Tıklamada)
-    function startMusic() {
+    // Müzik Başlatma (OXYGEN kısmından başlar)
+    function playMusic() {
       if (!musicStarted) {
         musicStarted = true;
         bgMusic.currentTime = 12; // "You're like the oxygen I need to survive" kısmı
-        bgMusic.play().catch(() => {});
+        bgMusic.play().catch(e => console.log("Müzik başlatılamadı:", e));
       }
     }
 
-    document.body.addEventListener('click', startMusic, { once: true });
+    document.body.addEventListener('click', playMusic, { once: true });
+    document.body.addEventListener('touchstart', playMusic, { once: true });
 
     // Gül Tıklama
     bouquetBtn.addEventListener('click', () => {
-      startMusic();
+      playMusic();
       if (currentStep < messages.length) {
         messageText.style.opacity = '0';
         setTimeout(() => {
@@ -353,9 +365,8 @@
       }
     });
 
-    // "Hayır" Butonunun Kaçma Mantığı (Evet'in üstüne asla gelemez)
+    // "Hayır" Butonunun Kaçma Mantığı (Evet ile çakışmaz)
     function moveNoButton() {
-      const containerRect = btnGroup.getBoundingClientRect();
       const yesRect = yesBtn.getBoundingClientRect();
       const btnWidth = noBtn.offsetWidth;
       const btnHeight = noBtn.offsetHeight;
@@ -364,12 +375,10 @@
       let attempts = 0;
 
       do {
-        // Ekran veya konteyner içinde rastgele bir nokta
         newLeft = Math.random() * (window.innerWidth - btnWidth - 40) + 20;
         newTop = Math.random() * (window.innerHeight - btnHeight - 40) + 20;
 
-        // "Evet" butonunun konum kontrolü (Çakışma engelleme)
-        const noRectPotential = {
+        const noRect = {
           left: newLeft,
           right: newLeft + btnWidth,
           top: newTop,
@@ -377,14 +386,14 @@
         };
 
         isOverlapping = !(
-          noRectPotential.right < yesRect.left - 30 ||
-          noRectPotential.left > yesRect.right + 30 ||
-          noRectPotential.bottom < yesRect.top - 30 ||
-          noRectPotential.top > yesRect.bottom + 30
+          noRect.right < yesRect.left - 40 ||
+          noRect.left > yesRect.right + 40 ||
+          noRect.bottom < yesRect.top - 40 ||
+          noRect.top > yesRect.bottom + 40
         );
 
         attempts++;
-      } while (isOverlapping && attempts < 50);
+      } while (isOverlapping && attempts < 40);
 
       noBtn.style.position = 'fixed';
       noBtn.style.left = `${newLeft}px`;
@@ -398,19 +407,16 @@
       moveNoButton();
     });
 
-    // "Evet" Butonu Tıklama
+    // "Evet" Butonu
     yesBtn.addEventListener('click', () => {
       questionStage.style.display = 'none';
       envelopeStage.style.display = 'flex';
     });
 
-    // Zarfa Tıklama & Fotoğraf Gösterimi
+    // Zarfa Tıklama & Mektup Gösterimi
     envelopeBtn.addEventListener('click', () => {
-      // Görseli yükle
-      couplePhoto.src = uploadedPhotoBase64;
-      
       envelopeStage.style.display = 'none';
-      photoModal.classList.add('active');
+      letterModal.classList.add('active');
       startConfetti();
     });
 
@@ -422,9 +428,9 @@
       canvas.height = window.innerHeight;
 
       const particles = [];
-      const colors = ['#ff4b2b', '#ff416c', '#ffd1dc', '#ffffff', '#e0aaff'];
+      const colors = ['#e63946', '#ff4d6d', '#ffb7c5', '#ffffff', '#f1c40f'];
 
-      for (let i = 0; i < 120; i++) {
+      for (let i = 0; i < 100; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height - canvas.height,
@@ -459,7 +465,6 @@
       }
       animate();
     }
-    
   </script>
 </body>
 </html>
